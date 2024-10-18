@@ -48,11 +48,16 @@ class UsuarioController extends Controller
         ]);
 
         // Buscar al usuario por su id
-        $usuario = Usuarios::findOrFail($request->id);
+        $usuario = Usuarios::find($request->id);
+
+        if(!isset($usuario)){
+            $usuario = new Usuarios();
+        }
 
         // Actualizar los datos del usuario en la tabla usuarios
         $usuario->Name = $request->input('nombre');
         $usuario->Email = $request->input('email');
+        $usuario->Password = Hash::make('password123');
         $usuario->save();
 
         // Verificar si existe la información personal relacionada
@@ -71,6 +76,7 @@ class UsuarioController extends Controller
             
             $informacionPersonal->update();// Asegúrate de que esta clave foránea esté correcta
         }else{
+            $informacionPersonal->usuario_id = $usuario->id; 
             $informacionPersonal->save();
         }
 
