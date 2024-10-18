@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('Direccion');
             $table->string('Telefono');
             $table->date('FechaNacimiento');
+            $table->timestamps();
 
             // Definir la clave foránea
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
